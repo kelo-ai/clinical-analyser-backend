@@ -18,6 +18,7 @@ import websockets
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, WebSocket, WebSocketDisconnect, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from database import Base, engine, get_db
@@ -44,6 +45,15 @@ from prescription_insights import generate_prescription_insight
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="AI Clinical Assistant - Transcription Module")
+
+# Allows Flutter Web (running in a browser, a different origin than this API)
+# to call this backend. Without this, browsers block the request entirely.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # fine for now; restrict to your actual web domain later
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # ============================================================
