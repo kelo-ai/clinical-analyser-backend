@@ -13,7 +13,7 @@ Assistant's own record is still saved either way).
 
 import requests
 
-EMR_BASE_URL = "http://localhost:8002"
+EMR_BASE_URL = "https://emr-backend-0y9d.onrender.com"
 
 
 def push_visit_record(patient_id: str, doctor_id: str, subjective: str,
