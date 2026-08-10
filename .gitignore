@@ -2,3 +2,5 @@
 *.db
 __pycache__/
 *.pyc.env
+emr_backend/
+mychnages.txt
