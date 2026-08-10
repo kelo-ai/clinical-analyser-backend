@@ -6,3 +6,4 @@ requests
 websockets
 json-repair
 python-dotenv
+psycopg2-binary

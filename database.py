@@ -1,15 +1,21 @@
 """
-Database connection and session setup using SQLAlchemy + SQLite.
-SQLite is fine for development/prototype; swap the URL for Postgres later
-if this needs to move to production.
+Database connection and session setup using SQLAlchemy.
+Uses Postgres in production (set DATABASE_URL), falls back to local SQLite
+for development if DATABASE_URL isn't set.
 """
 
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "sqlite:///./clinical_assistant.db"
+load_dotenv()
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./clinical_assistant.db")
+
+connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+
+engine = create_engine(DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
